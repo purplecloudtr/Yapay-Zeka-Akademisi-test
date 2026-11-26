@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mvp.md — Happy Path Ana Ekran Wireframe (4 Durum, 390px)</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #ebebeb;
+      color: #141414;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+    }
+
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid #000000;
+      outline-offset: 2px;
+    }
+
+    .page-wrapper {
+      padding: 20px 24px 36px 24px;
+      min-width: 320px;
+    }
+
+    .question-note {
+      background-color: #f7f7f7;
+      border: 1px dashed #666666;
+      padding: 7px 9px;
+      margin-bottom: 6px;
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: #262626;
+    }
+
+    .question-note strong {
+      display: block;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 2px;
+    }
+
+    .board-header {
+      background-color: #ffffff;
+      border: 2px solid #1f1f1f;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+
+    .board-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      border-bottom: 1px solid #cccccc;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+
+    .board-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .board-meta {
+      font-size: 12px;
+      color: #4d4d4d;
+    }
+
+    .assumptions-list {
+      list-style: none;
+      margin: 0 0 12px 0;
+      padding: 0;
+      font-size: 12.5px;
+      color: #2b2b2b;
+    }
+
+    .assumptions-list li {
+      margin-bottom: 5px;
+      padding-left: 8px;
+      border-left: 3px solid #666666;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #dedede;
+    }
+
+    .toolbar-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333333;
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      background-color: #f2f2f2;
+      border: 1px solid #595959;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #141414;
+    }
+
+    .filter-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    .filter-btn.is-active {
+      background-color: #141414;
+      color: #ffffff;
+      border-color: #000000;
+    }
+
+    /* 4x 390px Yan Yana Tahta */
+    .screens-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+    }
+
+    .screen-column {
+      width: 390px;
+      min-width: 390px;
+      max-width: 390px;
+      flex: 0 0 390px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen-column.is-hidden {
+      display: none;
+    }
+
+    .state-header {
+      background-color: #262626;
+      color: #ffffff;
+      padding: 8px 12px;
+      border: 2px solid #000000;
+      border-bottom: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .state-width-tag {
+      font-size: 11px;
+      font-weight: 500;
+      background-color: #404040;
+      color: #f2f2f2;
+      padding: 2px 6px;
+      border: 1px solid #737373;
+    }
+
+    .phone-frame {
+      width: 390px;
+      min-width: 390px;
+      max-width: 390px;
+      background-color: #ffffff;
+      border: 2px solid #000000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .browser-bar {
+      background-color: #e6e6e6;
+      border-bottom: 1px solid #999999;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: #2b2b2b;
+    }
+
+    .address-box {
+      background-color: #ffffff;
+      border: 1px solid #8c8c8c;
+      padding: 3px 8px;
+      font-weight: 600;
+      width: 72%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .screen-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .wf-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wf-box {
+      border: 1.5px solid #333333;
+      background-color: #ffffff;
+      padding: 10px;
+    }
+
+    .wf-box-strong {
+      border: 2px solid #000000;
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+
+    .wf-box-muted {
+      border: 1px solid #999999;
+      background-color: #fafafa;
+      padding: 10px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      background-color: #d9d9d9;
+      color: #141414;
+      padding: 2px 6px;
+      border: 1px solid #737373;
+      margin-bottom: 6px;
+    }
+
+    .section-tag-dark {
+      background-color: #141414;
+      color: #ffffff;
+      border-color: #000000;
+    }
+
+    .announce-text {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .article-title {
+      margin: 0 0 6px 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: #141414;
+    }
+
+    .article-p {
+      margin: 0 0 6px 0;
+      font-size: 12.5px;
+      color: #404040;
+    }
+
+    .saved-focus-line {
+      border: 2px solid #141414;
+      background-color: #ededed;
+      padding: 7px 8px;
+      margin: 6px 0;
+      font-size: 12.5px;
+      color: #000000;
+    }
+
+    .focus-caption {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #262626;
+      margin-bottom: 3px;
+    }
+
+    .overlay-card {
+      border: 2px solid #141414;
+      background-color: #e8e8e8;
+      padding: 10px;
+    }
+
+    .overlay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #8c8c8c;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .broken-close-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      background-color: #d4d4d4;
+      border: 1px dashed #4d4d4d;
+      padding: 2px 5px;
+      color: #262626;
+    }
+
+    .overlay-copy {
+      margin: 0 0 8px 0;
+      font-size: 12.5px;
+      color: #1f1f1f;
+    }
+
+    .diagnosis-line {
+      margin: 0;
+      padding-top: 6px;
+      border-top: 1px solid #b3b3b3;
+      font-size: 11.5px;
+      color: #2b2b2b;
+    }
+
+    .skeleton-bar {
+      height: 12px;
+      background-color: #d9d9d9;
+      border: 1px solid #b3b3b3;
+      margin-bottom: 7px;
+    }
+
+    .skeleton-bar.short {
+      width: 65%;
+    }
+
+    .skeleton-bar.medium {
+      width: 85%;
+    }
+
+    .action-dock {
+      border-top: 2px solid #000000;
+      background-color: #f2f2f2;
+      padding: 12px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background-color: #141414;
+      color: #ffffff;
+      border: 2px solid #000000;
+      padding: 11px 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .btn-primary:hover {
+      background-color: #2b2b2b;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background-color: #ffffff;
+      color: #141414;
+      border: 1.5px solid #333333;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 6px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e6e6e6;
+    }
+
+    .btn-disabled-look {
+      width: 100%;
+      background-color: #d9d9d9;
+      color: #404040;
+      border: 1.5px solid #808080;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .dock-meta {
+      margin: 4px 0 0 0;
+      font-size: 11px;
+      color: #333333;
+    }
+
+    .hide-notes .question-note {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper" id="appRoot">
+    <!-- ÜST ÇERÇEVE VE VARSAYIMLAR -->
+    <div class="question-note">
+      <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+      Bu wireframe hangi Happy Path akışını modelliyor, hangi kısıtlara uyuyor ve hangi noktalar henüz doğrulanmadı?
+    </div>
+    <header class="board-header">
+      <div class="board-title-row">
+        <h1 class="board-title">mvp.md — Happy Path Ana Ekran Wireframe (390px Mobil, 4 Durum Yan Yana)</h1>
+        <span class="board-meta">Sadece gri tonlar ve sistem fontu | Renk yok | İkon yok | Dar pencerede yatay kaydırılabilir</span>
+      </div>
+      <ul class="assumptions-list">
+        <li><strong>[VARSAYIM]</strong> Mobil görünümde (390px) ürün, web sayfasının altında sabitlenen erişilebilir bir kontrol paneli ve sesli duyuru katmanı olarak çalışır.</li>
+        <li><strong>[SORU]</strong> İlk sürüm mobil tarayıcı eklentisi mi yoksa site içi bileşen mi olacak?</li>
+        <li><strong>[SORU]</strong> Masaüstü ve harici klavye kullanıcıları için çakışmayan varsayılan kısayol tuşu ne olacak?</li>
+      </ul>
+      <div class="toolbar" role="toolbar" aria-label="Ekran görünüm filtreleri">
+        <span class="toolbar-label">Görünüm:</span>
+        <button type="button" class="filter-btn is-active" id="btnShowAll">4 Durum Yan Yana (Varsayılan)</button>
+        <button type="button" class="filter-btn" id="btnShowFilled">Yalnızca 1. Dolu</button>
+        <button type="button" class="filter-btn" id="btnShowEmpty">Yalnızca 2. Empty State</button>
+        <button type="button" class="filter-btn" id="btnShowLoading">Yalnızca 3. Loading</button>
+        <button type="button" class="filter-btn" id="btnShowError">Yalnızca 4. Error</button>
+        <button type="button" class="filter-btn" id="btnToggleNotes">Soru Notlarını Gizle</button>
+      </div>
+    </header>
+
+    <!-- 4 HÂL YAN YANA (HER BİRİ TAM 390PX) -->
+    <main class="screens-row" id="screensContainer">
+
+      <!-- =========================================================
+           DURUM 1: DOLU (AÇILAN PENCERE ALGILANDI — HAPPY PATH)
+           ========================================================= -->
+      <section class="screen-column" id="colFilled" aria-label="1. Dolu Durumu">
+        <div class="state-header">
+          <span>1. Dolu (Açılan Pencere Yakalandı)</span>
+          <span class="state-width-tag">390px</span>
+        </div>
+        <div class="phone-frame">
+          <div class="browser-bar">
+            <div class="address-box">gunlukhaber.ornek/kent-ulasim</div>
+            <span>Sekme Açık</span>
+          </div>
+
+          <div class="screen-body">
+            <!-- BÖLÜM 1: DUYURU VE DURUM -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Şu an okumamı bölen bir pencere var mı ve ekran okuyucu bana ne duyuruyor?
+              </div>
+              <div class="wf-box-strong" aria-live="polite" id="filledBannerBox">
+                <span class="section-tag section-tag-dark" id="filledStepTag">Happy Path Adım 2–3: Engel Algılandı</span>
+                <p class="announce-text" id="filledAnnounceText">
+                  Sesli Duyuru: "Abonelik penceresi algılandı. Sayfayı kapatmadan yalnızca pencereyi kaldırmak için alt bölümdeki güvenli kapatma düğmesini seçin."
+                </p>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 2: ARKA PLAN İÇERİĞİ VE ODAK KAYDI -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Hangi içeriği okuyordum ve pencere kapandığında odağım hangi satıra dönecek?
+              </div>
+              <div class="wf-box">
+                <span class="section-tag">Arka Plan Sayfa İçeriği ve Odak Kaydı</span>
+                <h2 class="article-title">Kent İçi Ulaşımda Sesli Durak Rehberi</h2>
+                <p class="article-p">
+                  Belediye ulaşım birimi, sesli bilgilendirme sisteminin kırk iki ana durakta devreye alındığını açıkladı.
+                </p>
+                <div class="saved-focus-line" id="filledFocusTarget" tabindex="-1">
+                  <span class="focus-caption" id="filledFocusLabel">Kaydedilen Son Odak Noktası (2. Paragraf):</span>
+                  Yeni düzenlemeyle birlikte durak ekranlarındaki hat bilgileri yüksek kontrastlı metin düzeniyle sunulacak ve ekran okuyucuyla takip edilebilecek.
+                </div>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 3: ALGILANAN ENGEL KARTI -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Ekranımı kapatan katman nedir ve kendi kapatma düğmesi neden kullanılamıyor?
+              </div>
+              <div class="overlay-card" id="filledOverlayCard">
+                <div class="overlay-header">
+                  <span>Sonradan Açılan Katman: Abonelik</span>
+                  <span class="broken-close-badge">Site Düğmesi Yanıtsız</span>
+                </div>
+                <p class="overlay-copy" id="filledOverlayCopy">
+                  "Haftalık Haber Bültenine Katılın — Haberin devamını okumak için e-posta adresinizi yazın."
+                </p>
+                <p class="diagnosis-line" id="filledDiagnosisText">
+                  Durum özeti: Pencerenin kendi kapatma düğmesi etiketsiz ve dokunmaya yanıt vermiyor; arka plan metni kilitli.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BÖLÜM 4: SABİT GÜVENLİ EYLEM ÇUBUĞU -->
+          <div class="action-dock">
+            <div class="question-note">
+              <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+              Sekmeyi yanlışlıkla kapatmadan veya sayfayı yenilemeden nasıl devam edebilirim?
+            </div>
+            <button type="button" class="btn-primary" id="btnSafeClose">
+              Açılan Pencereyi Güvenle Kapat
+            </button>
+            <button type="button" class="btn-secondary" id="btnKeepOpen">
+              Pencereye Dokunma, Açık Bırak
+            </button>
+            <p class="dock-meta" id="filledDockMeta">
+              Happy Path Adım 4–6: Yalnızca katmanı kaldırır, odağı 2. paragrafa döndürür.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           DURUM 2: EMPTY STATE (ENGEL YOK — KESİNTİSİZ OKUMA)
+           ========================================================= -->
+      <section class="screen-column" id="colEmpty" aria-label="2. Empty State Durumu">
+        <div class="state-header">
+          <span>2. Empty State (Engel Yok)</span>
+          <span class="state-width-tag">390px</span>
+        </div>
+        <div class="phone-frame">
+          <div class="browser-bar">
+            <div class="address-box">gunlukhaber.ornek/kent-ulasim</div>
+            <span>Sekme Açık</span>
+          </div>
+
+          <div class="screen-body">
+            <!-- BÖLÜM 1: DUYURU VE DURUM -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Şu an okumamı bölen bir pencere var mı ve ekran okuyucu bana ne duyuruyor?
+              </div>
+              <div class="wf-box-muted" aria-live="polite">
+                <span class="section-tag">Happy Path Adım 1: Kesintisiz Okuma</span>
+                <p class="announce-text" id="emptyAnnounceText">
+                  Durum: Bu sayfada okumanızı bölen açılan pencere veya reklam katmanı bulunmuyor.
+                </p>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 2: ARKA PLAN İÇERİĞİ VE ODAK KAYDI -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Hangi içeriği okuyordum ve pencere kapandığında odağım hangi satıra dönecek?
+              </div>
+              <div class="wf-box">
+                <span class="section-tag">Arka Plan Sayfa İçeriği ve Etkin Odak</span>
+                <h2 class="article-title">Kent İçi Ulaşımda Sesli Durak Rehberi</h2>
+                <p class="article-p">
+                  Belediye ulaşım birimi, sesli bilgilendirme sisteminin kırk iki ana durakta devreye alındığını açıkladı.
+                </p>
+                <div class="saved-focus-line">
+                  <span class="focus-caption">Şu An Okunan Satır (2. Paragraf — Engel Yok):</span>
+                  Yeni düzenlemeyle birlikte durak ekranlarındaki hat bilgileri yüksek kontrastlı metin düzeniyle sunulacak ve ekran okuyucuyla takip edilebilecek.
+                </div>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 3: ALGILANAN ENGEL KARTI (BOŞ DURUM) -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Ekranımı kapatan katman nedir ve kendi kapatma düğmesi neden kullanılamıyor?
+              </div>
+              <div class="wf-box-muted">
+                <span class="section-tag">Empty State: Açılan Katman Yok</span>
+                <p class="overlay-copy">
+                  Sayfa açıldığından bu yana herhangi bir reklam veya abonelik penceresi tespit edilmedi.
+                </p>
+                <p class="diagnosis-line" id="emptyScanTimestamp">
+                  Sonradan açılan bir katman belirdiğinde okuma konumunuz otomatik kaydedilir ve güvenli kapatma düğmesi etkinleşir.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BÖLÜM 4: SABİT GÜVENLİ EYLEM ÇUBUĞU -->
+          <div class="action-dock">
+            <div class="question-note">
+              <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+              Sekmeyi yanlışlıkla kapatmadan veya sayfayı yenilemeden nasıl devam edebilirim?
+            </div>
+            <div class="btn-disabled-look" aria-disabled="true">
+              Kapatılacak Açılan Pencere Yok
+            </div>
+            <button type="button" class="btn-secondary" id="btnManualRescan">
+              Sayfayı Yeniden Kontrol Et
+            </button>
+            <p class="dock-meta">
+              Arka plan izlemesi açık; sayfa yenilemeye gerek yok.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           DURUM 3: LOADING (KATMAN İNCELENİYOR VE ODAK KORUNUYOR)
+           ========================================================= -->
+      <section class="screen-column" id="colLoading" aria-label="3. Loading Durumu">
+        <div class="state-header">
+          <span>3. Loading (Katman İşleniyor)</span>
+          <span class="state-width-tag">390px</span>
+        </div>
+        <div class="phone-frame">
+          <div class="browser-bar">
+            <div class="address-box">gunlukhaber.ornek/kent-ulasim</div>
+            <span>Sekme Açık</span>
+          </div>
+
+          <div class="screen-body">
+            <!-- BÖLÜM 1: DUYURU VE DURUM -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Şu an okumamı bölen bir pencere var mı ve ekran okuyucu bana ne duyuruyor?
+              </div>
+              <div class="wf-box-strong" aria-live="polite">
+                <span class="section-tag" id="loadingStepTag">Loading: Katman Çözümleniyor</span>
+                <p class="announce-text" id="loadingAnnounceText">
+                  Sesli Duyuru: "Yeni açılan katman inceleniyor ve kaldığınız satır kaydediliyor, lütfen bekleyin..."
+                </p>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 2: ARKA PLAN İÇERİĞİ VE ODAK KAYDI -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Hangi içeriği okuyordum ve pencere kapandığında odağım hangi satıra dönecek?
+              </div>
+              <div class="wf-box">
+                <span class="section-tag">Arka Plan Sayfa İçeriği (Sabitleniyor)</span>
+                <h2 class="article-title">Kent İçi Ulaşımda Sesli Durak Rehberi</h2>
+                <p class="article-p">
+                  Belediye ulaşım birimi, sesli bilgilendirme sisteminin kırk iki ana durakta devreye alındığını açıkladı.
+                </p>
+                <div class="saved-focus-line">
+                  <span class="focus-caption">Koruma Altına Alınan Odak (2. Paragraf):</span>
+                  Yeni düzenlemeyle birlikte durak ekranlarındaki hat bilgileri yüksek kontrastlı metin düzeniyle sunulacak ve ekran okuyucuyla takip edilebilecek.
+                </div>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 3: ALGILANAN ENGEL KARTI (YÜKLENİYOR İSKELETİ) -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Ekranımı kapatan katman nedir ve kendi kapatma düğmesi neden kullanılamıyor?
+              </div>
+              <div class="wf-box" id="loadingDetailBox">
+                <span class="section-tag">Katman Türü Doğrulanıyor</span>
+                <div class="skeleton-bar medium" aria-hidden="true"></div>
+                <div class="skeleton-bar short" aria-hidden="true"></div>
+                <p class="diagnosis-line" id="loadingDiagnosisText">
+                  Koruma kontrolü: Açılan pencerenin kullanıcı tarafından açılmış bir giriş veya ayar formu olmadığından emin olunuyor.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BÖLÜM 4: SABİT GÜVENLİ EYLEM ÇUBUĞU -->
+          <div class="action-dock">
+            <div class="question-note">
+              <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+              Sekmeyi yanlışlıkla kapatmadan veya sayfayı yenilemeden nasıl devam edebilirim?
+            </div>
+            <div class="btn-disabled-look" id="loadingPrimaryStatus" aria-disabled="true">
+              Katman İnceleniyor, Lütfen Bekleyin...
+            </div>
+            <button type="button" class="btn-secondary" id="btnToggleLoading">
+              İncelemeyi Durdur ve Sayfada Kal
+            </button>
+            <p class="dock-meta">
+              Hedef süre eşiği: [VARSAYIM] En fazla 5 saniye içinde hazır olur.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           DURUM 4: ERROR (OTOMATİK KAPATMA BAŞARISIZ — KURTARMA)
+           ========================================================= -->
+      <section class="screen-column" id="colError" aria-label="4. Error Durumu">
+        <div class="state-header">
+          <span>4. Error (Kapatma Engellendi)</span>
+          <span class="state-width-tag">390px</span>
+        </div>
+        <div class="phone-frame">
+          <div class="browser-bar">
+            <div class="address-box">gunlukhaber.ornek/kent-ulasim</div>
+            <span>Sekme Açık</span>
+          </div>
+
+          <div class="screen-body">
+            <!-- BÖLÜM 1: DUYURU VE DURUM -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Şu an okumamı bölen bir pencere var mı ve ekran okuyucu bana ne duyuruyor?
+              </div>
+              <div class="wf-box-strong" aria-live="assertive">
+                <span class="section-tag section-tag-dark" id="errorStepTag">Error: Otomatik Kapatma Yanıt Alamadı</span>
+                <p class="announce-text" id="errorAnnounceText">
+                  Sesli Duyuru: "Hata: Reklam katmanı harici çerçeve kısıtı nedeniyle standart komutla kapatılamadı. Sekmeniz kapatılmadı."
+                </p>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 2: ARKA PLAN İÇERİĞİ VE ODAK KAYDI -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Hangi içeriği okuyordum ve pencere kapandığında odağım hangi satıra dönecek?
+              </div>
+              <div class="wf-box">
+                <span class="section-tag">Arka Plan Sayfa İçeriği (Korundu)</span>
+                <h2 class="article-title">Kent İçi Ulaşımda Sesli Durak Rehberi</h2>
+                <p class="article-p">
+                  Belediye ulaşım birimi, sesli bilgilendirme sisteminin kırk iki ana durakta devreye alındığını açıkladı.
+                </p>
+                <div class="saved-focus-line" id="errorFocusTarget" tabindex="-1">
+                  <span class="focus-caption" id="errorFocusLabel">Kayıtlı Odak Noktası Güvende (2. Paragraf):</span>
+                  Yeni düzenlemeyle birlikte durak ekranlarındaki hat bilgileri yüksek kontrastlı metin düzeniyle sunulacak ve ekran okuyucuyla takip edilebilecek.
+                </div>
+              </div>
+            </div>
+
+            <!-- BÖLÜM 3: ALGILANAN ENGEL KARTI (HATA DETAYI) -->
+            <div class="wf-section">
+              <div class="question-note">
+                <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+                Ekranımı kapatan katman nedir ve kendi kapatma düğmesi neden kullanılamıyor?
+              </div>
+              <div class="overlay-card" id="errorOverlayCard">
+                <div class="overlay-header">
+                  <span>Kilitli Katman: Harici Reklam Çerçevesi</span>
+                  <span class="broken-close-badge">[SORU: iframe kapsamı]</span>
+                </div>
+                <p class="overlay-copy" id="errorOverlayCopy">
+                  Katman farklı bir alan adından yüklendiği için içindeki kapatma düğmesine erişilemedi.
+                </p>
+                <p class="diagnosis-line" id="errorDiagnosisText">
+                  Güvenlik garantisi: Yanlışlıkla tüm siteyi kapatmamak için işlem durduruldu; dilerseniz katmanı görünümden gizleyebilirsiniz.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BÖLÜM 4: SABİT GÜVENLİ EYLEM ÇUBUĞU -->
+          <div class="action-dock">
+            <div class="question-note">
+              <strong>Bu alan hangi soruyu cevaplıyor?</strong>
+              Sekmeyi yanlışlıkla kapatmadan veya sayfayı yenilemeden nasıl devam edebilirim?
+            </div>
+            <button type="button" class="btn-primary" id="btnForceHide">
+              Katmanı Görünümden Gizle (Should Çözümü)
+            </button>
+            <button type="button" class="btn-secondary" id="btnRestoreFocusOnly">
+              Odağı Doğrudan 2. Paragrafa Taşı
+            </button>
+            <p class="dock-meta" id="errorDockMeta">
+              Sekme açık tutuldu; sayfa başına dönmeden kurtarma seçenekleri hazır.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var appRoot = document.getElementById('appRoot');
+      var columns = {
+        all: ['colFilled', 'colEmpty', 'colLoading', 'colError'],
+        filled: ['colFilled'],
+        empty: ['colEmpty'],
+        loading: ['colLoading'],
+        error: ['colError']
+      };
+
+      var filterButtons = [
+        { id: 'btnShowAll', key: 'all' },
+        { id: 'btnShowFilled', key: 'filled' },
+        { id: 'btnShowEmpty', key: 'empty' },
+        { id: 'btnShowLoading', key: 'loading' },
+        { id: 'btnShowError', key: 'error' }
+      ];
+
+      function setViewFilter(activeKey) {
+        var visibleIds = columns[activeKey] || columns.all;
+        columns.all.forEach(function (colId) {
+          var el = document.getElementById(colId);
+          if (!el) return;
+          if (visibleIds.indexOf(colId) !== -1) {
+            el.classList.remove('is-hidden');
+          } else {
+            el.classList.add('is-hidden');
+          }
+        });
+
+        filterButtons.forEach(function (item) {
+          var btn = document.getElementById(item.id);
+          if (!btn) return;
+          if (item.key === activeKey) {
+            btn.classList.add('is-active');
+          } else {
+            btn.classList.remove('is-active');
+          }
+        });
+      }
+
+      filterButtons.forEach(function (item) {
+        var btn = document.getElementById(item.id);
+        if (btn) {
+          btn.addEventListener('click', function () {
+            setViewFilter(item.key);
+          });
+        }
+      });
+
+      var btnToggleNotes = document.getElementById('btnToggleNotes');
+      var notesVisible = true;
+      btnToggleNotes.addEventListener('click', function () {
+        notesVisible = !notesVisible;
+        if (notesVisible) {
+          appRoot.classList.remove('hide-notes');
+          btnToggleNotes.textContent = 'Soru Notlarını Gizle';
+        } else {
+          appRoot.classList.add('hide-notes');
+          btnToggleNotes.textContent = 'Soru Notlarını Göster';
+        }
+      });
+
+      // 1. DOLU EKRAN — HAPPY PATH ETKİLEŞİMİ
+      var filledResolved = false;
+      var btnSafeClose = document.getElementById('btnSafeClose');
+      var btnKeepOpen = document.getElementById('btnKeepOpen');
+      var filledStepTag = document.getElementById('filledStepTag');
+      var filledAnnounceText = document.getElementById('filledAnnounceText');
+      var filledOverlayCard = document.getElementById('filledOverlayCard');
+      var filledOverlayCopy = document.getElementById('filledOverlayCopy');
+      var filledDiagnosisText = document.getElementById('filledDiagnosisText');
+      var filledFocusLabel = document.getElementById('filledFocusLabel');
+      var filledFocusTarget = document.getElementById('filledFocusTarget');
+      var filledDockMeta = document.getElementById('filledDockMeta');
+
+      function resetFilledState() {
+        filledResolved = false;
+        filledStepTag.textContent = 'Happy Path Adım 2–3: Engel Algılandı';
+        filledAnnounceText.textContent = 'Sesli Duyuru: "Abonelik penceresi algılandı. Sayfayı kapatmadan yalnızca pencereyi kaldırmak için alt bölümdeki güvenli kapatma düğmesini seçin."';
+        filledOverlayCopy.textContent = '"Haftalık Haber Bültenine Katılın — Haberin devamını okumak için e-posta adresinizi yazın."';
+        filledDiagnosisText.textContent = 'Durum özeti: Pencerenin kendi kapatma düğmesi etiketsiz ve dokunmaya yanıt vermiyor; arka plan metni kilitli.';
+        filledOverlayCard.style.backgroundColor = '#e8e8e8';
+        filledFocusLabel.textContent = 'Kaydedilen Son Odak Noktası (2. Paragraf):';
+        btnSafeClose.textContent = 'Açılan Pencereyi Güvenle Kapat';
+        btnKeepOpen.textContent = 'Pencereye Dokunma, Açık Bırak';
+        filledDockMeta.textContent = 'Happy Path Adım 4–6: Yalnızca katmanı kaldırır, odağı 2. paragrafa döndürür.';
+      }
+
+      btnSafeClose.addEventListener('click', function () {
+        if (!filledResolved) {
+          filledResolved = true;
+          filledStepTag.textContent = 'Happy Path Adım 5–6: Katman Kaldırıldı';
+          filledAnnounceText.textContent = 'Sesli Duyuru: "Abonelik penceresi kapatıldı. Sekmeniz açık kaldı; odağınız 2. paragraftaki kaldığınız cümleye döndürüldü."';
+          filledOverlayCopy.textContent = 'Engelleyen katman kaldırıldı. Sayfa yenilenmedi ve tarayıcı sekmesi kapatılmadı.';
+          filledDiagnosisText.textContent = 'Geri alma (Could): İhtiyaç duyarsanız son kapatılan pencereyi geri getirebilirsiniz.';
+          filledOverlayCard.style.backgroundColor = '#f7f7f7';
+          filledFocusLabel.textContent = 'Etkin Ekran Okuyucu Odağı Geri Döndü (2. Paragraf):';
+          btnSafeClose.textContent = 'Senaryoyu Başa Al (Engeli Tekrar Göster)';
+          btnKeepOpen.textContent = 'Son Kapatılan Pencereyi Geri Getir (Could)';
+          filledDockMeta.textContent = 'Happy Path tamamlandı: Kullanıcı sayfa başına dönmeden okumaya devam ediyor.';
+          filledFocusTarget.focus();
+        } else {
+          resetFilledState();
+        }
+      });
+
+      btnKeepOpen.addEventListener('click', function () {
+        if (filledResolved) {
+          resetFilledState();
+        } else {
+          filledStepTag.textContent = 'Kullanıcı Seçimi: Katman Açık Bırakıldı';
+          filledAnnounceText.textContent = 'Sesli Duyuru: "Pencere açık bırakıldı. İstediğiniz an güvenli kapatma düğmesiyle kaldırabilirsiniz."';
+        }
+      });
+
+      // 2. EMPTY STATE — YENİDEN KONTROL ETKİLEŞİMİ
+      var scanCount = 1;
+      var btnManualRescan = document.getElementById('btnManualRescan');
+      var emptyAnnounceText = document.getElementById('emptyAnnounceText');
+      var emptyScanTimestamp = document.getElementById('emptyScanTimestamp');
+
+      btnManualRescan.addEventListener('click', function () {
+        scanCount += 1;
+        emptyAnnounceText.textContent = 'Durum: Sayfa yeniden tarandı (' + scanCount + '. kontrol) — Açılan pencere veya reklam katmanı bulunamadı.';
+        emptyScanTimestamp.textContent = 'Son kontrol sonucu: Arka plan metni açık ve kesintisiz okunabilir durumda.';
+      });
+
+      // 3. LOADING — DURDUR / DEVAM ETTİR ETKİLEŞİMİ
+      var loadingPaused = false;
+      var btnToggleLoading = document.getElementById('btnToggleLoading');
+      var loadingStepTag = document.getElementById('loadingStepTag');
+      var loadingAnnounceText = document.getElementById('loadingAnnounceText');
+      var loadingPrimaryStatus = document.getElementById('loadingPrimaryStatus');
+      var loadingDiagnosisText = document.getElementById('loadingDiagnosisText');
+
+      btnToggleLoading.addEventListener('click', function () {
+        loadingPaused = !loadingPaused;
+        if (loadingPaused) {
+          loadingStepTag.textContent = 'İnceleme Kullanıcı Tarafından Durduruldu';
+          loadingAnnounceText.textContent = 'Sesli Duyuru: "Katman incelemesi durduruldu. Sayfanız ve 2. paragraftaki odağınız korundu."';
+          loadingPrimaryStatus.textContent = 'İnceleme Duraklatıldı';
+          loadingDiagnosisText.textContent = 'Dilediğiniz zaman katman incelemesini yeniden başlatabilirsiniz.';
+          btnToggleLoading.textContent = 'Katman İncelemesini Yeniden Başlat';
+        } else {
+          loadingStepTag.textContent = 'Loading: Katman Çözümleniyor';
+          loadingAnnounceText.textContent = 'Sesli Duyuru: "Yeni açılan katman inceleniyor ve kaldığınız satır kaydediliyor, lütfen bekleyin..."';
+          loadingPrimaryStatus.textContent = 'Katman İnceleniyor, Lütfen Bekleyin...';
+          loadingDiagnosisText.textContent = 'Koruma kontrolü: Açılan pencerenin kullanıcı tarafından açılmış bir giriş veya ayar formu olmadığından emin olunuyor.';
+          btnToggleLoading.textContent = 'İncelemeyi Durdur ve Sayfada Kal';
+        }
+      });
+
+      // 4. ERROR — SHOULD GİZLEME VE ODAK KURTARMA ETKİLEŞİMİ
+      var errorRecovered = false;
+      var btnForceHide = document.getElementById('btnForceHide');
+      var btnRestoreFocusOnly = document.getElementById('btnRestoreFocusOnly');
+      var errorStepTag = document.getElementById('errorStepTag');
+      var errorAnnounceText = document.getElementById('errorAnnounceText');
+      var errorOverlayCopy = document.getElementById('errorOverlayCopy');
+      var errorDiagnosisText = document.getElementById('errorDiagnosisText');
+      var errorFocusLabel = document.getElementById('errorFocusLabel');
+      var errorFocusTarget = document.getElementById('errorFocusTarget');
+
+      btnForceHide.addEventListener('click', function () {
+        if (!errorRecovered) {
+          errorRecovered = true;
+          errorStepTag.textContent = 'Kurtarma Uygulandı: Katman Gizlendi';
+          errorAnnounceText.textContent = 'Sesli Duyuru: "Harici katman görünümden gizlendi ve odağınız 2. paragrafa taşındı."';
+          errorOverlayCopy.textContent = 'Harici reklam çerçevesi yerel görünüm ve ekran okuyucu akışından gizlendi.';
+          errorDiagnosisText.textContent = 'Sekme kapatılmadan okuma akışı kurtarıldı.';
+          errorFocusLabel.textContent = 'Kurtarılan Etkin Odak (2. Paragraf):';
+          btnForceHide.textContent = 'Hata Durumunu Başa Al';
+          errorFocusTarget.focus();
+        } else {
+          errorRecovered = false;
+          errorStepTag.textContent = 'Error: Otomatik Kapatma Yanıt Alamadı';
+          errorAnnounceText.textContent = 'Sesli Duyuru: "Hata: Reklam katmanı harici çerçeve kısıtı nedeniyle standart komutla kapatılamadı. Sekmeniz kapatılmadı."';
+          errorOverlayCopy.textContent = 'Katman farklı bir alan adından yüklendiği için içindeki kapatma düğmesine erişilemedi.';
+          errorDiagnosisText.textContent = 'Güvenlik garantisi: Yanlışlıkla tüm siteyi kapatmamak için işlem durduruldu; dilerseniz katmanı görünümden gizleyebilirsiniz.';
+          errorFocusLabel.textContent = 'Kayıtlı Odak Noktası Güvende (2. Paragraf):';
+          btnForceHide.textContent = 'Katmanı Görünümden Gizle (Should Çözümü)';
+        }
+      });
+
+      btnRestoreFocusOnly.addEventListener('click', function () {
+        errorFocusLabel.textContent = 'Odak Doğrudan 2. Paragrafa Taşındı:';
+        errorAnnounceText.textContent = 'Sesli Duyuru: "Odağınız sayfa yenilenmeden 2. paragrafa geri getirildi."';
+        errorFocusTarget.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
